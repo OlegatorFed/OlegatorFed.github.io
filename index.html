@@ -151,15 +151,20 @@
             <input type="text" id="group-cap" value="2">
         </p>
         <p>
-            <label>Number of maps</label>
-            <input type="text" id="maps-number" value="5">
+            <label>sid</label>
+            <input type="text" id="sid">
         </p>
+<!--        <p>-->
+<!--            <label>rid</label>-->
+<!--            <input type="text" id="rid">-->
+<!--        </p>-->
+        <p><input type="button" value="Set" id="set-btn" onclick="SetSidRid()"><input type="button" value="Request" id="req-btn" onclick="_Request()"></p>
 
-        <p><label>Edit Mode</label><input type="radio" name="mode" id="edit-mode" checked="true" onclick="UpdateMode()"></p>
-        <p><label>Tournament Mode</label><input type="radio" name="mode" id="tour-mode" onclick="UpdateMode()"></p>
+<!--        <p><label>Edit Mode</label><input type="radio" name="mode" id="edit-mode" checked="true" onclick="UpdateMode()"></p>-->
+<!--        <p><label>Tournament Mode</label><input type="radio" name="mode" id="tour-mode" onclick="UpdateMode()"></p>-->
 
         <input type="button" value="Clear" id="clear-btn" onclick="Clear()">
-        <input type="button" value="Generate" id="generate-btn" onclick="SetGrid()">
+<!--        <input type="button" value="Generate" id="generate-btn" onclick="SetGrid()">-->
         <input type="button" value="Generate groups" id="generate-groups-btn" onclick="SetGroupRounds()">
 
     </form>

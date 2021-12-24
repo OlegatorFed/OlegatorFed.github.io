@@ -3,33 +3,43 @@ var teamNames = [];
 var scores = {};
 var scoreTable = document.getElementById("score-table");
 var lastGameRound;
-tourMode = document.getElementById("tour-mode").checked;
-editMode = document.getElementById("edit-mode").checked;
-var mode = !editMode;
-var userJSON = JSON.parse(GetJSON("https://imcs.dvfu.ru/cats/?f=users;cid=5913343;sid=pQm2uTL9c0NvaJKao0Dx314YUnlapD;json=1"));
-var matchJSON = JSON.parse(GetJSON("https://imcs.dvfu.ru/cats/?f=console;cid=5913343;sid=pQm2uTL9c0NvaJKao0Dx314YUnlapD;search=contest_id%3Dthis,elements_count%3E1;json=1;i_value=-1"));
+var sid = document.getElementById("sid").value;
+// var rid = document.getElementById("rid").value;
+// tourMode = document.getElementById("tour-mode").checked;
+// editMode = document.getElementById("edit-mode").checked;
+// var mode = !editMode;
+var userJSON;
+var matchJSON;
 var resultJSON = [];
 var problems = ["Test competitive modules"];
 
-UpdateMode();
+
+// UpdateMode();
 //UpdateTeamsNumber();
 //SetProblems();
-SetJSON();
+
 //SetTeams();
 
+function GetUsers() {
+    userJSON = JSON.parse(GetJSON("https://imcs.dvfu.ru/cats/?f=users;cid=5913343;sid=" + sid + ";json=1"));
+}
+function GetMatches() {
+    matchJSON = JSON.parse(GetJSON("https://imcs.dvfu.ru/cats/?f=console;cid=5913343;sid=" + sid + ";search=contest_id%3Dthis,elements_count%3E1;json=1;i_value=-1"));
+}
+
 function GetResult(matchCount){
-    return JSON.parse(GetJSON('https://imcs.dvfu.ru/cats/?f=console;cid=5913343;sid=pQm2uTL9c0NvaJKao0Dx314YUnlapD;search=contest_id%3Dthis,parent_id%3D' + matchJSON[matchCount].id + ';json=1;i_value=-1'));
+    return JSON.parse(GetJSON('https://imcs.dvfu.ru/cats/?f=console;cid=5913343;sid=' + sid + ';search=contest_id%3Dthis,parent_id%3D' + matchJSON[matchCount].id + ';json=1;i_value=-1'));
 }
 
 function GetTests(resultId) {
-    return JSON.parse(GetJSON('https://imcs.dvfu.ru/cats/?f=run_details;cid=5913343;rid=' + resultId + ';sid=pQm2uTL9c0NvaJKao0Dx314YUnlapD;json=1'));
+    return JSON.parse(GetJSON('https://imcs.dvfu.ru/cats/?f=run_details;cid=5913343;rid=' + resultId + ';sid=' + sid + ';json=1'));
 }
 
-function GetMatches(userId) {
-    return matchJSON.filter(function (matchJSON) {
-        return matchJSON.team_id == userId;
-    })
-}
+// function GetMatches(userId) {
+//     return matchJSON.filter(function (matchJSON) {
+//         return matchJSON.team_id == userId;
+//     })
+// }
 
 function SetProblems() {
     matchJSON.forEach((item) => {
@@ -53,5 +63,15 @@ function SetJSON() {
             document.getElementById("teams").innerHTML += '<tr><td>' + userJSON.users[i].name + '</td></tr>';
         }
     }
+}
+
+function SetSidRid() {
+    sid = document.getElementById("sid").value;
+}
+
+function _Request() {
+    GetUsers();
+    GetMatches();
+    SetJSON();
 }
 

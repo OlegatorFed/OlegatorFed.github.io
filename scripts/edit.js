@@ -73,6 +73,7 @@ function SetTeams() {
         }
     }
     SortScores();
+    UpdateTeamsNumber();
 }
 
 function DecideTheWinner(element) {
@@ -134,6 +135,6 @@ function Clear() {
 }
 
 function UpdateTeamsNumber() {
-    SetTeams();
+    //SetTeams();
     document.getElementById("teams-counter").innerText = "Number of teams: " + teamNames.length;
 }
