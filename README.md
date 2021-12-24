@@ -1,1 +1,1 @@
-OlegatorFed.github.io
+TournamentGridGenerator

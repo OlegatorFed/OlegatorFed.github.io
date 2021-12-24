@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <style>
+
+        .col{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            /*background-color: cornflowerblue;*/
+            margin: 0px 5px 0px 5px;
+            /*height: 108px;*/
+            width: 150px;
+        }
+
+        .game-node:first-child{
+            margin-top: 0px;
+        }
+
+        .game-node:last-child{
+            margin-bottom: 0px;
+        }
+
+        .game-node{
+            margin-top: 20px;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        .name-text{
+            width: 100%;
+            padding: 0;
+        }
+
+        .con-col{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            width: 10px;
+            /*background-color: blueviolet;*/
+        }
+        [class^="con-col-"]{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            width: 10px;
+        }
+
+        .connector{
+            border: 2px solid red;
+            border-left: none;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            height: 20%;
+        }
+
+        .connector:first-child{
+            margin-top: 0px;
+        }
+        .connector:last-child{
+            margin-bottom: 0px;
+        }
+
+        .con-col-0 .connector{
+            height: 88px;
+        }
+
+        .con-col-1 .connector{
+            height: 160px;
+        }
+
+        .con-col-2 .connector{
+            height: 322px;
+        }
+        .con-col-3 .connector{
+            height: 647px;
+        }
+
+        #score-table{
+            border: 2px solid;
+            margin-top: 5px;
+        }
+
+        #score-table tr{
+            border: 1px solid;
+        }
+
+        #score-table td{
+            border: 1px solid;
+        }
+
+        #winner{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 4px solid orange;
+            height: 88px;
+            width: 154px;
+            align-self: center;
+        }
+
+        .group-table{
+            border: 2px solid black;
+            margin: 5px 10px;
+            width: 500px;
+        }
+
+        .group-table th{
+            border: 2px solid black;
+            background-color: coral;
+        }
+
+        .group-table tr td {
+            border: 1px solid black;
+        }
+
+    </style>
+</head>
+<body>
+
+    <form>
+
+        <label>Enter teams names. Every line considered as one team.</label>
+        <p></p>
+        <textarea id="teams-names" oninput="UpdateTeamsNumber()"></textarea>
+        <p><label id="teams-counter">Number of teams: </label></p>
+
+        <p>
+            <label>Group cap</label>
+            <input type="text" id="group-cap" value="2">
+        </p>
+        <p>
+            <label>Number of maps</label>
+            <input type="text" id="maps-number" value="5">
+        </p>
+
+        <p><label>Edit Mode</label><input type="radio" name="mode" id="edit-mode" checked="true" onclick="UpdateMode()"></p>
+        <p><label>Tournament Mode</label><input type="radio" name="mode" id="tour-mode" onclick="UpdateMode()"></p>
+
+        <input type="button" value="Clear" id="clear-btn" onclick="Clear()">
+        <input type="button" value="Generate" id="generate-btn" onclick="SetGrid()">
+        <input type="button" value="Generate groups" id="generate-groups-btn" onclick="SetGroupRounds()">
+
+    </form>
+
+    <div id="bracket-area2" style="display: flex; margin-top: 10px; height: auto; flex-direction: row; flex-wrap: wrap"></div>
+
+    <table id="score-table">
+    </table>
+
+
+    <script src="scripts/edit.js"></script>
+    <script src="scripts/generation.js"></script>
+    <script src="scripts/main.js"></script>
+</body>
+</html>
