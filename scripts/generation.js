@@ -106,7 +106,7 @@ function SetGroupRounds() {
     SetTeams();
 
     var numberOfTeams = teamNames.length;
-    var numberOfMaps = parseInt(document.getElementById("maps-number").value);
+    var numberOfMaps = parseInt(problems.length);
     var groups = [];
     var groupCap = parseInt(document.getElementById("group-cap").value);
     var numberOfGroups = numberOfTeams / groupCap;
@@ -114,10 +114,8 @@ function SetGroupRounds() {
 
 
     for (var k = 0; k < numberOfMaps; k++){
-        numRow += '<th>' + (k + 1) + '</th>';
+        numRow += '<th>' + problems[k] + '</th>';
     }
-
-    console.log(numberOfGroups);
     for (var i = 0; i < numberOfGroups; i++){
 
         document.getElementById("bracket-area2").innerHTML += '<table id="group-'+ i +'" class="group-table"></table>';
@@ -128,8 +126,11 @@ function SetGroupRounds() {
             groups[i].push(teamNames[j]);
         }
         groups[i] = groups[i].filter(item => item);
-        for (var k = 0; k < groups[i].length; k++)
-            document.getElementById("group-"+i).innerHTML += '<tr>' + SetTableRowGroup(groups[i][k], numberOfMaps) + '</tr>';
+        for (var k = 0; k < groups[i].length; k++){
+            document.getElementById("group-"+i).innerHTML += '<tr>' + SetTableRowGroup(groups[i][k], problems) + '</tr>';
+        }
+
+
 
     }
 
@@ -161,10 +162,25 @@ function SetGroupTable(group, mapsNumber) {
     return insertCode;
 }
 
-function SetTableRowGroup(name, mapsNumber) {
-    var mapRow = '';
-    for (var k = 0; k < mapsNumber; k++){
-        mapRow += '<td></td>';
+function SetTableRowGroup(name, problems) {
+    var testsRow = '';
+    var pointsRow = '';
+
+    for (var k = 0; k < problems.length; k++){
+        testsRow += '<tr>';
+        if (scores[name][problems[k]]["tests"] !== undefined){
+            for (i = 0; i < scores[name][problems[k]]["tests"].length; i++){
+                pointsRow += '<td>' + (scores[name][problems[k]]["tests"][i] === undefined ? 0 : scores[name][problems[k]]["tests"][i]) + '</td>';
+                testsRow += '<td>' + (i+1) + '</td>'
+            }
+        }
+        else {
+            testsRow += '<td></td>'
+            pointsRow += '<td>Нет тестов</td>'
+        }
+
+        testsRow += '<td>Итого</td></tr>';
+        pointsRow += '<td>' + scores[name][problems[k]]["total"] + '</td>'
     }
-    return '<td>'+ name +'</td>' + mapRow;
+    return '<td>'+ name +'</td>' + '<td><table>' + testsRow + '<tr>' + pointsRow + '</tr>' + '</table></td>';
 }

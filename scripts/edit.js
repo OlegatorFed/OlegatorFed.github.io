@@ -17,11 +17,16 @@ function ScoreInit() {
         }
     })
 }
+function SumArr(arr) {
+    return arr.reduce(function (a, b) {
+            return a + b;
+        })
+}
 
 function SortScores() {
     for (var i = 0; i < teamNames.length; i++){
         for (var j = i+1; j < teamNames.length; j++){
-            if (scores[teamNames[i]].wins <= scores[teamNames[j]].wins){
+            if (scores[teamNames[i]]["Test competitive modules"]["total"] <= scores[teamNames[j]]["Test competitive modules"]["total"]){
                 [teamNames[i], teamNames[j]] = [teamNames[j], teamNames[i]];
             }
         }
@@ -34,10 +39,40 @@ function UpdateTable() {
 }
 
 function SetTeams() {
-    teamsText = document.getElementById("teams-names").value;
-    teamNames = teamsText.split('\n').filter(item => item);
-    scores = {};
-    ScoreInit();
+    scores = [];
+    for (var i = 0; i < userJSON.users.length; i++){
+
+        if (userJSON.users[i].jury == 0){
+
+            teamNames.push(userJSON.users[i].name);
+            scores[userJSON.users[i].name] = {};
+            if (Object.keys(resultJSON[i]).length > 0){
+
+                problems.forEach((item) => {
+
+                    scores[userJSON.users[i].name][item] = {};
+                    scores[userJSON.users[i].name][item]['tests'] = [];
+                    scores[userJSON.users[i].name][item]['points'] = [];
+                    resultJSON[i][item].forEach((item1) => {
+                        console.log(item1.id);
+                        GetTests(item1.id).runs[0].tests.forEach((item2) => {
+                            scores[userJSON.users[i].name][item]['tests'].push(item2.points);
+                        })
+                        scores[userJSON.users[i].name][item]['points'].push(item1.points);
+                    });
+                    scores[userJSON.users[i].name][item]['total'] = SumArr(scores[userJSON.users[i].name][item]['tests']);
+                });
+            }
+            else {
+
+                problems.forEach((item) => {
+                    scores[userJSON.users[i].name][item] = {};
+                    scores[userJSON.users[i].name][item]['total'] = 0;
+                });
+            }
+        }
+    }
+    SortScores();
 }
 
 function DecideTheWinner(element) {

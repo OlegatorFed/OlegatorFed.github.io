@@ -9,13 +9,20 @@ var mode = !editMode;
 var userJSON = JSON.parse(GetJSON("https://imcs.dvfu.ru/cats/?f=users;cid=5913343;sid=pQm2uTL9c0NvaJKao0Dx314YUnlapD;json=1"));
 var matchJSON = JSON.parse(GetJSON("https://imcs.dvfu.ru/cats/?f=console;cid=5913343;sid=pQm2uTL9c0NvaJKao0Dx314YUnlapD;search=contest_id%3Dthis,elements_count%3E1;json=1;i_value=-1"));
 var resultJSON = [];
+var problems = ["Test competitive modules"];
 
 UpdateMode();
-UpdateTeamsNumber();
-ScoreInit();
+//UpdateTeamsNumber();
+//SetProblems();
+SetJSON();
+//SetTeams();
 
 function GetResult(matchCount){
     return JSON.parse(GetJSON('https://imcs.dvfu.ru/cats/?f=console;cid=5913343;sid=pQm2uTL9c0NvaJKao0Dx314YUnlapD;search=contest_id%3Dthis,parent_id%3D' + matchJSON[matchCount].id + ';json=1;i_value=-1'));
+}
+
+function GetTests(resultId) {
+    return JSON.parse(GetJSON('https://imcs.dvfu.ru/cats/?f=run_details;cid=5913343;rid=' + resultId + ';sid=pQm2uTL9c0NvaJKao0Dx314YUnlapD;json=1'));
 }
 
 function GetMatches(userId) {
@@ -24,14 +31,23 @@ function GetMatches(userId) {
     })
 }
 
+function SetProblems() {
+    matchJSON.forEach((item) => {
+        if (problems.indexOf(item.problem_title) === -1){
+            problems.push(item.problem_title);
+            console.log(item.problem_title);
+        }
+    });
+}
+
 function SetJSON() {
     for (var i = 0; i < userJSON.users.length; i++){
         if (userJSON.users[i].jury == 0){
-            resultJSON[i] = []
+            resultJSON[i] = {};
             for (var j = 0; j < matchJSON.length; j++){
+                resultJSON[i][matchJSON[j].problem_title];
                 if (matchJSON[j].team_id == i){
-                    resultJSON[i][matchJSON[j].problem_title] = [];
-                    resultJSON[i][matchJSON[j].problem_title].push(GetResult(j));
+                    resultJSON[i][matchJSON[j].problem_title] = GetResult(j);
                 }
             }
             document.getElementById("teams").innerHTML += '<tr><td>' + userJSON.users[i].name + '</td></tr>';
