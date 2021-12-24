@@ -1,3 +1,10 @@
+function GetJSON(url) {
+    var Httpreq = new XMLHttpRequest();
+    Httpreq.open("GET",url,false);
+    Httpreq.send(null);
+    return Httpreq.responseText;
+}
+
 function ScoreInit() {
     teamNames.forEach((item) => {
         if (typeof scores[item] === 'undefined'){
@@ -69,7 +76,6 @@ function UpdateMode() {
     tourMode = document.getElementById("tour-mode").checked;
     editMode = document.getElementById("edit-mode").checked;
     mode = !editMode;
-    console.log(document.getElementById("bracket-area2").innerHTML === '');
     if (editMode){
         if (document.getElementById("bracket-area2").innerHTML !== ''){
             Clear();
@@ -84,7 +90,6 @@ function UpdateMode() {
         document.getElementById("generate-btn").disabled = true;
         document.getElementById("clear-btn").disabled = true;
     }
-    console.log(tourMode, editMode);
 }
 
 function Clear() {

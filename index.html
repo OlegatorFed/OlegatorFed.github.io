@@ -117,6 +117,10 @@
             border: 1px solid black;
         }
 
+        #teams{
+            border: 1px solid black;
+        }
+
     </style>
 </head>
 <body>
@@ -125,7 +129,12 @@
 
         <label>Enter teams names. Every line considered as one team.</label>
         <p></p>
-        <textarea id="teams-names" oninput="UpdateTeamsNumber()"></textarea>
+        <textarea id="teams-names" oninput="UpdateTeamsNumber()" disabled></textarea>
+        <table id="teams">
+
+
+
+        </table>
         <p><label id="teams-counter">Number of teams: </label></p>
 
         <p>
